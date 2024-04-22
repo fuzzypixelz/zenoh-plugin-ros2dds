@@ -35,7 +35,7 @@ on:
 jobs:
   tag:
     name: Branch, Bump & tag crates
-    uses: eclipse-zenoh/ci/.github/workflows/branch-bump-tag-crates.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/branch-bump-tag-crates.yml@staging
     with:
       repo: ${{ github.repository }}
       live-run: ${{ inputs.live-run || false }}
@@ -48,7 +48,7 @@ jobs:
   build-debian:
     name: Build Debian packages
     needs: tag
-    uses: eclipse-zenoh/ci/.github/workflows/build-crates-debian.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/build-crates-debian.yml@staging
     with:
       repo: ${{ github.repository }}
       version: ${{ needs.tag.outputs.version }}
@@ -58,7 +58,7 @@ jobs:
   build-standalone:
     name: Build executables and libraries
     needs: tag
-    uses: eclipse-zenoh/ci/.github/workflows/build-crates-standalone.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/build-crates-standalone.yml@staging
     with:
       repo: ${{ github.repository }}
       version: ${{ needs.tag.outputs.version }}
@@ -74,7 +74,7 @@ jobs:
   cargo:
     needs: tag
     name: Publish Cargo crates
-    uses: eclipse-zenoh/ci/.github/workflows/release-crates-cargo.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/release-crates-cargo.yml@staging
     with:
       repo: ${{ github.repository }}
       live-run: ${{ inputs.live-run || false }}
@@ -91,7 +91,7 @@ jobs:
   debian:
     name: Publish Debian packages
     needs: [tag, build-debian]
-    uses: eclipse-zenoh/ci/.github/workflows/release-crates-debian.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/release-crates-debian.yml@staging
     with:
       no-build: true
       live-run: ${{ inputs.live-run || false }}
@@ -104,7 +104,7 @@ jobs:
   homebrew:
     name: Publish Homebrew formulae
     needs: [tag, build-standalone]
-    uses: eclipse-zenoh/ci/.github/workflows/release-crates-homebrew.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/release-crates-homebrew.yml@staging
     with:
       no-build: true
       repo: ${{ github.repository }}
@@ -122,7 +122,7 @@ jobs:
   eclipse:
     name: Publish artifacts to Eclipse downloads
     needs: [tag, build-standalone]
-    uses: eclipse-zenoh/ci/.github/workflows/release-crates-eclipse.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/release-crates-eclipse.yml@staging
     with:
       no-build: true
       live-run: ${{ inputs.live-run || false }}
@@ -139,7 +139,7 @@ jobs:
   github:
     name: Publish artifacts to GitHub Releases
     needs: [tag, build-standalone]
-    uses: eclipse-zenoh/ci/.github/workflows/release-crates-github.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/release-crates-github.yml@staging
     with:
       no-build: true
       live-run: ${{ inputs.live-run || false }}
@@ -155,14 +155,14 @@ jobs:
   dockerhub:
     name: Publish container image to DockerHub
     needs: [tag, build-standalone]
-    uses: eclipse-zenoh/ci/.github/workflows/release-crates-dockerhub.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/release-crates-dockerhub.yml@staging
     with:
       no-build: true
       live-run: true
       version: ${{ needs.tag.outputs.version }}
       repo: ${{ github.repository }}
       branch: ${{ needs.tag.outputs.branch }}
-      tags: "eclipse/zenoh-bridge-ros2dds:${{ needs.tag.outputs.version }}"
+      tags: "fuzzypixelz/zenoh-bridge-ros2dds:${{ needs.tag.outputs.version }}"
       binary: zenoh-bridge-ros2dds
       files: |
         zenoh-bridge-ros2dds
@@ -176,7 +176,7 @@ jobs:
   ghcr:
     name: Publish container image to GitHub Container Registry
     needs: [tag, build-standalone]
-    uses: eclipse-zenoh/ci/.github/workflows/release-crates-ghcr.yml@main
+    uses: fuzzypixelz/ci/.github/workflows/release-crates-ghcr.yml@staging
     with:
       no-build: true
       live-run: true
